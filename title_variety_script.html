@@ -1,0 +1,49 @@
+<script>
+	jQuery(document).ready(function($) {
+		// rr kidz form
+		var titleDivider = " - ";
+		var titleDelimiter = " | ";
+		$titleCheckboxField = $(".title_variety input[type='checkbox']");
+		$titleQtyField = $('.title_variety .frm_other_input');
+		$checkboxValues = $('.compiled_checkbox_values input');
+		// adjust attributes on other fields
+		$titleQtyField.each(function(){
+			$(this).attr('type','number');
+			$(this).attr('data-invmsg','Quantity is invalid');
+			$(this).attr('min','1');
+			$(this).attr('max','9999999');
+			$(this).attr('step','1');
+		});
+		// update on field change
+		$titleCheckboxField.change(function(){
+			compile_checkbox_values();
+		});
+		$titleQtyField.change(function(){
+			compile_checkbox_values();
+		});
+		// compile all color variety details and save in hidden field
+		function compile_checkbox_values() {
+			var compiled_values = [];
+			$titleQtyField.each(function(){
+				// TODO: FIX THIS to work on checkbox change
+				/*
+				$parentField = $(this).closest("input[type='checkbox']");
+				console.log($parentField);
+				if( $parentField.is(':checked') ) {
+					console.log('CHECKED');
+				}
+				*/
+				if( $(this).is(':visible') ) {
+					qty_this = parseInt( $(this).val() );
+					title_this = $(this).prev('label').text();
+					if( qty_this ) {
+						compiled_values.push(qty_this + titleDivider + title_this);
+					}
+				}
+			});
+			compiled_text_string = compiled_values.join(titleDelimiter);
+			console.log(compiled_text_string);
+			$checkboxValues.val(compiled_text_string);
+		}
+	});
+</script>

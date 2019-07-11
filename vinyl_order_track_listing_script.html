@@ -1,0 +1,17 @@
+<script>
+	document.addEventListener("DOMContentLoaded", updateRepeatCountFields );
+	jQuery(document).on('frmAfterAddRow', updateRepeatCountFields );
+	jQuery(document).on('frmAfterRemoveRow', updateRepeatCountFields );
+	function updateRepeatCountFields(){
+		// loop through each side	
+		var recordSides = document.querySelectorAll( '.record_side');
+		recordSides.forEach(function(element) {
+			// loop through each track
+			var countFields = element.querySelectorAll( '.track_number input');
+			for( var i = 0, len=countFields.length; i<len; i++ ) {
+				// auto increment track number
+				countFields[i].value = i+1;
+			}
+		});
+	}  
+</script>

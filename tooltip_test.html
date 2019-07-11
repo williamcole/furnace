@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+	jQuery(document).ready(function($) {
+		// add title attributes
+		$('.frm_form_field .frm_description').each(function(){
+			// check for tooltip class
+			if( $(this).closest('.frm_form_field').hasClass('help') ) {				
+				var desc_text = $(this).text();
+				if( desc_text.length != 0 ) {
+					$(this).prev('input').attr('title', desc_text);
+				}
+			}
+		});
+		// tooltip test
+		$(document).tooltip({
+			tooltipClass: "form-tooltip",
+			items: "img, [data-geo], [title]",
+			position: {
+				my: "center top",
+				at: "center bottom+10",
+				using: function( position, feedback ) {
+					$( this ).css( position );
+					$( "<div>" ).addClass( "arrow" ).addClass( feedback.vertical ).addClass( feedback.horizontal ).appendTo( this );
+				}
+			},
+			content: function() {
+				var element = $(this);
+				if( element.is( "[data-geo]" ) ) {
+					var text = element.text();
+					return "<img class='map' alt='" + text + "' src='http://maps.google.com/maps/api/staticmap?" + "zoom=11&size=350x350&maptype=terrain&sensor=false&center=" + text + "'>";
+				}
+				if( element.is( "[title]" ) ) {
+					return element.attr( "title" );
+				}
+				if( element.is( "img" ) ) {
+					return element.attr( "alt" );
+				}
+			}
+		});
+	});
+</script>

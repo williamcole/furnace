@@ -1,0 +1,70 @@
+<script>
+	jQuery(document).ready(function($) {
+		// define variables
+		$addressCheckbox = $('#field_ship_same_address-0');
+		var address1 = 'address_test_pressing',
+		    address2 = 'address_finished_goods',
+		    address3 = 'address_leftover_parts',
+		    sourceField,
+            address_fields = ['line1', 'line2', 'city', 'state', 'zip'],
+            country, country_address1, country_address2, country_address3,
+            contact_name, contact_number, address_type, address_comments;
+		// country
+		country_address1 = $("select[id='field_" + address1 + "_country']");
+		country_address2 = $("select[id='field_" + address2 + "_country']");
+		country_address3 = $("select[id='field_" + address3 + "_country']");
+		country_address1.val('United States');
+        country_address2.val('United States');
+        country_address3.val('United States');
+        // validate on field change
+		$addressCheckbox.change(function(){
+			if( $(this).is(':checked') ) {
+			    // contact name
+			    contact_name = $('#field_address_contact').val();
+			    $('#field_address_contact_2').val(contact_name);
+			    $('#field_address_contact_3').val(contact_name);
+			    // contact phone
+			    contact_number = $('#field_address_phone').val();
+			    $('#field_address_phone_2').val(contact_number);
+			    $('#field_address_phone_3').val(contact_number);
+			    // address type
+	            address_type = $('#field_address_type').val();
+	            $('#field_address_type_2').val(address_type);
+				$('#field_address_type_3').val(address_type);
+			    // address
+			    address_fields.forEach(function (field) {
+	                sourceField = $('#field_' + address1 + '_' + field).val();
+	                $('#field_' + address2 + '_' + field).val(sourceField);
+	                $('#field_' + address3 + '_' + field).val(sourceField);
+	            });
+	            // country
+				if (country_address1 && country_address2 && country_address3) {
+	                country = country_address1.val();
+	                country_address2.val(country);
+	                country_address3.val(country);
+	            }
+	            // comments
+	            address_comments = $('#field_address_comments').val();
+			    $('#field_address_comments_2').val(address_comments);
+			    $('#field_address_comments_3').val(address_comments);
+			} else {
+				//console.log('UNCHECKED');
+				$('#field_address_contact_2').val('');
+			    $('#field_address_contact_3').val('');
+			    $('#field_address_phone_2').val('');
+			    $('#field_address_phone_3').val('');
+			    $('#field_address_type_2').val('');
+			    $('#field_address_type_3').val('');
+			    $('#field_address_comments_2').val('');
+			    $('#field_address_comments_3').val('');
+			    address_fields.forEach(function (field) {
+	                $('#field_' + address2 + '_' + field).val('');
+	                $('#field_' + address3 + '_' + field).val('');
+	            });
+	            country_address1.val('United States');
+		        country_address2.val('United States');
+		        country_address3.val('United States');		        
+			}
+		});
+	});
+</script>

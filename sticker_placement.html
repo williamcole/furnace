@@ -1,0 +1,125 @@
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.min.js" integrity="sha256-FgiaQnQazF/QCrF9qSvpRY6PACn9ZF8VnlgqfqD1LsE=" crossorigin="anonymous"></script><script>
+	jQuery(document).ready(function($) {
+		var $albumSize = $("#field_albumsize");
+		var $stickerType = $("#field_stickertype");
+		var $marketingStickerType = $("#field_marketing_sticker_type");
+		var $stickerShape = $("#field_custom_sticker_shape");
+		var $stickerSizeSelect = $('.sticker_size_select select');
+		$("#burst, #round, #square").height("24.5px").width("24.5px");
+		$("#vgrid").droppable({accept: ".sticker"});
+		$(".sticker").draggable({ stop : function(){
+				var position1 = $(this).css("left");
+				var position2 = $(this).css("top")
+				$("#field_coordinates_left").val(position1);
+				$("#field_coordinates_top").val(position2);
+			}
+		});
+		$albumSize.change(function(){
+			var valU = $(this).val();
+			if( valU == '12"' ) { $("#vgrid td").css("width","48px").css("height","48px"); }
+			if( valU == '10"' ) { $("#vgrid td").css("width","40px").css("height","40px"); }
+			if( valU == '7"' )  { $("#vgrid td").css("width","28px").css("height","28px"); }
+			//if( valU == 5){$("#vgrid td").css("width","20px").css("height","20px");}			
+		});
+		$stickerType.change(function(){
+			upcCheck();
+		});
+		$stickerShape.change(function(){
+			ssReset();
+			var valU = $(this).val();
+			valU2 = 0.5;
+			if( valU == "Circle" ) {
+				$("#round.sticker").children().height(valU2*49+"px").width(valU2*49+"px"); 
+				$("#round.sticker").show();
+			} else if( valU == "Square" ) {
+				$("#square.sticker").children().height(valU2*49+"px").width(valU2*49+"px"); 
+				$("#square.sticker").show();
+			} else if( valU == "Rectangle" ) {
+				$("#square.sticker").children().height(valU2*49+"px").width(valU2*49+"px"); 
+				$("#square.sticker").show();
+			}
+			upcCheck();
+		});
+		$marketingStickerType.change(function(){
+			ssReset();
+			var mst = $(this).val();
+			if( mst == '180g' ) {
+				$("#ss1.sticker").children().width("98px").height("98px");
+				$("#ss1.sticker").show();
+			} else if( mst == 'Color Vinyl' ) {
+				$("#ss2.sticker").children().width("98px").height("98px");
+				$("#ss2.sticker").show();
+			} else if( mst == 'Double LP' ) {
+				$("#ss3.sticker").children().width("98px").height("98px");
+				$("#ss3.sticker").show();
+			} else if( mst == 'Download Included' ) {
+				$("#ss4.sticker").children().width("98px").height("98px");
+				$("#ss4.sticker").show();
+			} else if( mst == 'Download, Illustration' ) {
+				$("#ss5.sticker").children().width("98px").height("98px");
+				$("#ss5.sticker").show();
+			} else if( mst == 'High Quality Vinyl' ) {
+				$("#ss6.sticker").children().width("98px").height("98px");
+				$("#ss6.sticker").show();
+			} else if( mst == 'Vinyl is Killing the MP3 Industry' ) {
+				$("#ss7.sticker").children().width("98px").height("98px");
+				$("#ss7.sticker").show();
+			}
+			upcCheck();
+		});
+		$stickerSizeSelect.change(function(){
+			var ssSize1 = 1;
+			var ssSize2 = 1;
+			var ssSize = $('.sticker_size_select select:visible').val();
+			if( ssSize && ( ssSize !== undefined ) ) {
+				if( ssSize.indexOf(' x ') > -1 ) {
+					ssSize1 = ssSize.split(' x ')[0].replace('"','');
+					ssSize2 = ssSize.split(' x ')[1].replace('"','');
+				} else {
+					ssSize = ssSize.replace('"','');
+					ssSize1 = ssSize;
+					ssSize2 = ssSize;
+				}
+				$('.sticker:visible').children().height(ssSize1*49+"px").width(ssSize2*49+"px");
+			}
+			upcCheck();
+		});
+		function upcCheck() {
+			var valU = $stickerType.val();
+			if( valU == "UPC Sticker" ) {
+				ssReset();
+				$("#upc.sticker").children().width("98px").height("49px");
+				$("#upc.sticker").show();
+			}
+		}
+		function ssReset() {
+			$(".sticker").hide();
+		}
+	});
+</script>
+<div class="sticker-placement-wrap">
+<div class="sticker" id="round"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/round.png" /></div>
+<div class="sticker" id="burst"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/burst.png" /></div>
+<div class="sticker" id="square"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/square.png" /></div>
+<div class="sticker" id="ss1"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/ss1.png" /></div>
+<div class="sticker" id="ss2"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/ss2.png" /></div>
+<div class="sticker" id="ss3"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/ss3.png" /></div>
+<div class="sticker" id="ss4"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/ss4.png" /></div>
+<div class="sticker" id="ss5"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/ss5.png" /></div>
+<div class="sticker" id="ss6"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/ss6.png" /></div>
+<div class="sticker" id="ss7"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/ss7.png" /></div>
+<div class="sticker" id="upc"><img src="http://1.dev.yokoco.co/wp-content/uploads/2018/02/upc.png" /></div>
+<table id="vgrid" cellspacing="0" cellpadding="0" align="center">
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></table>
+</div>

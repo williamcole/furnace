@@ -1,0 +1,92 @@
+<script>
+	jQuery(document).ready(function($) {
+		// custom quote
+		$qtyField = $('#field_records_qty');
+		$setField = $('#field_records_in_set');
+		// vinyl order form
+		//$qtyField = $('#field_records_qty2');
+		//$setField = $('#field_records_in_set2');
+		$colorQtyMin = 100;
+		$colorQtyField = $('.color_variety .frm_other_input');
+		$colorQtyError = $('.color_qty_error');
+		$checkboxValues = $('.compiled_checkbox_values input');
+		$submitButton = $('.frm_button_submit');
+		// adjust attributes on color qty other fields
+		$colorQtyField.each(function(){
+			$(this).attr('type','number');
+			$(this).attr('data-invmsg','Quantity is invalid');
+			$(this).attr('min','100');
+			$(this).attr('max','9999999');
+			$(this).attr('step','any');
+		});
+		// get order total
+		function get_order_qty_total() {
+			var recs = $qtyField.val();
+			var sets = $setField.val();
+			if( recs && sets ) {
+				var order_total = +recs * +sets;
+				return order_total;
+			}
+		}
+		// get total color quantity
+		function get_color_qty_total() {
+			var qty_total = 0;
+			$colorQtyField.each(function(){
+				if( $(this).is(':visible') ) {
+					qty_this = parseInt( $(this).val() );
+					if( qty_this ) { qty_total = +qty_total + +qty_this; }
+				}
+			});
+			return qty_total;
+		}
+		// validate color qty values
+		function validate_color_qtys() {
+			$colorQtyError.hide();
+			var ord_total = get_order_qty_total();
+			var qty_total = get_color_qty_total();
+			if( qty_total == ord_total ) {
+				$submitButton.removeAttr('disabled');
+				console.log('Color variety qtys OK!');
+			} else {
+				if( qty_total > 0 ) {
+					console.log('Please double check your math');
+					$colorQtyError.show();
+					$submitButton.attr('disabled','disabled');
+				}
+			}
+		}
+		// recalculate whenever qty field is adjusted
+		$qtyField.change(function(){validate_color_qtys();});
+		$setField.change(function(){validate_color_qtys();});
+		$colorQtyField.change(function(){
+			t = parseInt( $(this).val() ); 
+			o = get_order_qty_total();
+			c = get_color_qty_total();
+			d = o-c+t;
+			if( d > 0 ) {
+				$(this).attr('max',d);
+			} else {
+				$(this).attr('max','999999');
+			}
+			validate_color_qtys();
+			compile_checkbox_values();
+		});
+		// compile all color variety details and save in hidden field
+		function compile_checkbox_values() {
+			var compiled_values = [];
+			$colorQtyField.each(function(){
+				if( $(this).is(':visible') ) {
+					qty_this = parseInt( $(this).val() );
+					color_this = $(this).prev('label').text();
+					if( qty_this ) {
+						compiled_values.push(qty_this + ' - ' + color_this);
+					}
+				}
+			});
+			compiled_text_string = compiled_values.join("<br/>");
+			//console.log(compiled_text_string);
+			$checkboxValues.val(compiled_text_string);
+		}
+	});
+</script>
+<div class="frm_error_style color_qty_error">Double check your math. These quantities should match the Quantity field on the top of the order form.</div>

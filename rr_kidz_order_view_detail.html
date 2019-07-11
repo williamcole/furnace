@@ -1,0 +1,38 @@
+[[editlink]]
+
+<br><br><br>
+
+<h3>Project Information</h3>
+<table>
+<tbody>
+<tr><td width="33%"><strong>[2462 show="field_label"]</strong></td><td width="66%">[2462]</td></tr>
+<tr><td><strong>[2463 show="field_label"]</strong></td><td>[2463]</td></tr>
+<tr><td><strong>[2464 show="field_label"]</strong></td><td>[2464]</td></tr>
+<tr><td><strong>[2465 show="field_label"]</strong></td><td>[2465]</td></tr>
+<tr><td><strong>[2474 show="field_label"]</strong></td><td id="title-variety-details">[2474]</td></tr>
+<tr><td><strong>[2466 show="field_label"]</strong></td><td>
+	
+	
+	[2466 show="field_label"]: [2466 sep="<br/>"]
+	
+	
+</td></tr>
+<tr><td><strong>[2467 show="field_label"]</strong></td><td>[2467]</td></tr>
+<tr><td><strong>[2468 show="field_label"]</strong></td><td>[2468]</td></tr>
+<tr><td><strong>[2469 show="field_label"]</strong></td><td>[2469]</td></tr>
+</tbody>
+</table>
+
+<script>
+	jQuery(document).ready(function($) {
+		// display commas as line breaks for color variety details
+		var cv_details = '';
+		$colorVarietyField = $('#title-variety-details');
+		cv_details = $colorVarietyField.html();
+		if( cv_details && ( cv_details !== null ) ) {
+			//cv_details = cv_details.replace(new RegExp(" \| ",'g'),'<br>');
+			cv_details = cv_details.split('|').join('<br>');
+			$colorVarietyField.html(cv_details);
+		}
+	});
+</script>
